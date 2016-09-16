@@ -14,7 +14,6 @@
 
         <ImageView
             android:id="@+id/itemMainImagePoster"
-            android:src="@drawable/sample_movie_poster"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="8dp"
