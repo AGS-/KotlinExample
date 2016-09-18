@@ -1,30 +1,21 @@
 package com.angelgomezsalazar.kotlinexample.adapters
 
-import android.app.Activity
-import android.content.Intent
-import android.support.v7.widget.CardView
+// We import adding the keyword view so we can access the synthetic properties
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-
 import com.angelgomezsalazar.kotlinexample.R
 import com.angelgomezsalazar.kotlinexample.retrofit.models.Movie
 import com.squareup.picasso.Picasso
-
-import java.util.HashMap
-
-// We import adding the keyword view so we can access the synthetic properties
-import kotlinx.android.synthetic.main.item_main.view.*;
+import kotlinx.android.synthetic.main.item_main.view.*
 
 /**
  * Created by angelgomez on 8/18/16.
  */
 class MovieRecyclerAdapter(val movieList: List<Movie>,
-                           val genreHashMap: HashMap<Int, String>) :
+                           val genreHashMap: MutableMap<Int, String?>) :
         RecyclerView.Adapter<MovieRecyclerAdapter.ViewHolder>() {
 
     inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
