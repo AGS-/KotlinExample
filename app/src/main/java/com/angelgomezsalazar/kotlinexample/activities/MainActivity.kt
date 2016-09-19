@@ -9,6 +9,7 @@ import com.angelgomezsalazar.kotlinexample.retrofit.interfaces.MovieApi
 import com.angelgomezsalazar.kotlinexample.retrofit.models.Genre
 import com.angelgomezsalazar.kotlinexample.retrofit.models.GenreResponse
 import com.angelgomezsalazar.kotlinexample.retrofit.models.Movie
+import com.angelgomezsalazar.kotlinexample.retrofit.models.MovieResponse
 import com.angelgomezsalazar.kotlinexample.utils.Api
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
@@ -28,27 +29,18 @@ class MainActivity : AppCompatActivity() {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
-        val genreIds: MutableList<Int> = arrayListOf()
-        val movie1 = Movie()
-        movie1.title = "Hello"
-        movie1.posterPath = "/dQ7uxvsVTspVIsqjfgQj8usJpwX.jpg"
-        movie1.genreIds = genreIds
-        movie1.release_date = "RELEASE"
-        movie1.overview = "Hello Overview World"
-
         val movieList: MutableList<Movie> = arrayListOf()
-
-        movieList.add(movie1)
 
         val linearLayoutManager = LinearLayoutManager(this)
         mainRecyclerView.layoutManager = linearLayoutManager
 
-        callGenreApi(retrofit, movieList)
+        val movieApi: MovieApi = retrofit.create(MovieApi::class.java)
+
+        callGenreApi(movieList, movieApi)
 
     }
 
-    fun callGenreApi(retrofit: Retrofit, movieList: MutableList<Movie>) {
-        val movieApi: MovieApi = retrofit.create(MovieApi::class.java)
+    fun callGenreApi(movieList: MutableList<Movie>, movieApi: MovieApi) {
         val genreCall: Call<GenreResponse> = movieApi.getGenreList(Api.KEY)
 
         genreCall.enqueue(object: Callback<GenreResponse> {
@@ -61,9 +53,27 @@ class MainActivity : AppCompatActivity() {
 
                 val movieRecyclerAdapter = MovieRecyclerAdapter(movieList, genreHashMap)
                 mainRecyclerView.adapter = movieRecyclerAdapter
+
+                callUpcomingMovieApi(movieList, movieApi, movieRecyclerAdapter, 1)
             }
 
             override fun onFailure(call: Call<GenreResponse>?, t: Throwable?) {
+            }
+        })
+    }
+
+    fun callUpcomingMovieApi(movieList: MutableList<Movie>, movieApi: MovieApi,
+                             movieRecyclerAdapter: MovieRecyclerAdapter, page: Int) {
+        val upcomingMovieCall: Call<MovieResponse> = movieApi.getUpcomingMovies(page, Api.KEY)
+
+        upcomingMovieCall.enqueue(object: Callback<MovieResponse> {
+            override fun onResponse(call: Call<MovieResponse>?,
+                                    response: Response<MovieResponse>?) {
+                movieList.addAll(response!!.body().results!!)
+                movieRecyclerAdapter.notifyDataSetChanged()
+            }
+
+            override fun onFailure(call: Call<MovieResponse>?, t: Throwable?) {
             }
         })
     }
