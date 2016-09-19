@@ -9,6 +9,7 @@ import com.angelgomezsalazar.kotlinexample.retrofit.interfaces.MovieApi
 import com.angelgomezsalazar.kotlinexample.retrofit.models.Genre
 import com.angelgomezsalazar.kotlinexample.retrofit.models.GenreResponse
 import com.angelgomezsalazar.kotlinexample.retrofit.models.Movie
+import com.angelgomezsalazar.kotlinexample.utils.Api
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var retrofit: Retrofit = Retrofit.Builder()
+        val retrofit: Retrofit = Retrofit.Builder()
                 .baseUrl("https://api.themoviedb.org/3/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
     fun callGenreApi(retrofit: Retrofit, movieList: MutableList<Movie>) {
         val movieApi: MovieApi = retrofit.create(MovieApi::class.java)
-        val genreCall: Call<GenreResponse> = movieApi.getGenreList("1f54bd990f1cdfb230adb312546d765d")
+        val genreCall: Call<GenreResponse> = movieApi.getGenreList(Api.KEY)
 
         genreCall.enqueue(object: Callback<GenreResponse> {
             override fun onResponse(call: Call<GenreResponse>?,
