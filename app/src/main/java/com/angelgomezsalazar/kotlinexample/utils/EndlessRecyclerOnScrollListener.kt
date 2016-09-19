@@ -6,7 +6,8 @@ import android.support.v7.widget.RecyclerView
 /**
  * Created by angelgomez on 8/18/16.
  */
-abstract class EndlessRecyclerOnScrollListener(private val linearLayoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {
+abstract class EndlessRecyclerOnScrollListener(val linearLayoutManager: LinearLayoutManager) :
+        RecyclerView.OnScrollListener() {
 
     var previousTotal = 0
     var loading = true
@@ -40,5 +41,5 @@ abstract class EndlessRecyclerOnScrollListener(private val linearLayoutManager: 
         }
     }
 
-    abstract fun onLoadMore(current_page: Int)
+    abstract fun onLoadMore(currentPage: Int)
 }

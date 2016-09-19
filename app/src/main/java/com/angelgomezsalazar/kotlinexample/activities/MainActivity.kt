@@ -11,6 +11,7 @@ import com.angelgomezsalazar.kotlinexample.retrofit.models.GenreResponse
 import com.angelgomezsalazar.kotlinexample.retrofit.models.Movie
 import com.angelgomezsalazar.kotlinexample.retrofit.models.MovieResponse
 import com.angelgomezsalazar.kotlinexample.utils.Api
+import com.angelgomezsalazar.kotlinexample.utils.EndlessRecyclerOnScrollListener
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,6 +20,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
+
+    var movieRecyclerAdapter: MovieRecyclerAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,11 +33,19 @@ class MainActivity : AppCompatActivity() {
                 .build()
 
         val movieList: MutableList<Movie> = arrayListOf()
+        val movieApi: MovieApi = retrofit.create(MovieApi::class.java)
+
 
         val linearLayoutManager = LinearLayoutManager(this)
         mainRecyclerView.layoutManager = linearLayoutManager
-
-        val movieApi: MovieApi = retrofit.create(MovieApi::class.java)
+        mainRecyclerView.addOnScrollListener(object:
+                EndlessRecyclerOnScrollListener(linearLayoutManager) {
+            override fun onLoadMore(currentPage: Int) {
+                if (movieList.size < 50) {
+                    callUpcomingMovieApi(movieList, movieApi, movieRecyclerAdapter, currentPage)
+                }
+            }
+        })
 
         callGenreApi(movieList, movieApi)
 
@@ -63,14 +74,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun callUpcomingMovieApi(movieList: MutableList<Movie>, movieApi: MovieApi,
-                             movieRecyclerAdapter: MovieRecyclerAdapter, page: Int) {
+                             movieRecyclerAdapter: MovieRecyclerAdapter?, page: Int) {
         val upcomingMovieCall: Call<MovieResponse> = movieApi.getUpcomingMovies(page, Api.KEY)
 
         upcomingMovieCall.enqueue(object: Callback<MovieResponse> {
             override fun onResponse(call: Call<MovieResponse>?,
                                     response: Response<MovieResponse>?) {
                 movieList.addAll(response!!.body().results!!)
-                movieRecyclerAdapter.notifyDataSetChanged()
+                movieRecyclerAdapter?.notifyDataSetChanged()
             }
 
             override fun onFailure(call: Call<MovieResponse>?, t: Throwable?) {
