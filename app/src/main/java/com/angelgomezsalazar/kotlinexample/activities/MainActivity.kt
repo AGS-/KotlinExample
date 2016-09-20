@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                     genreHashMap.put(genre.id, genre.name)
                 }
 
-                val movieRecyclerAdapter = MovieRecyclerAdapter(movieList, genreHashMap)
+                movieRecyclerAdapter = MovieRecyclerAdapter(movieList, genreHashMap)
                 mainRecyclerView.adapter = movieRecyclerAdapter
 
                 callUpcomingMovieApi(movieList, movieApi, movieRecyclerAdapter, 1)
