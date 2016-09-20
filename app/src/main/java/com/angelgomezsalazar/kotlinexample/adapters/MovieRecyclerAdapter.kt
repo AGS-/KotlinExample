@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.angelgomezsalazar.kotlinexample.R
 import com.angelgomezsalazar.kotlinexample.activities.DetailActivity
 import com.angelgomezsalazar.kotlinexample.retrofit.models.Movie
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_main.view.*
 
 /**
@@ -21,10 +22,10 @@ class MovieRecyclerAdapter(val movieList: List<Movie>,
     inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         fun bindMovie(movie: Movie) {
             // We pass context using itemView
-//            Picasso.with(itemView.context)
-//                    .load("http://image.tmdb.org/t/p/w500" + movie.posterPath!!)
-//                    .placeholder(R.drawable.sample_movie_poster)
-//                    .into(itemView.itemMainImagePoster)
+            Picasso.with(itemView.context)
+                    .load("http://image.tmdb.org/t/p/w500" + movie.posterPath)
+                    .placeholder(R.drawable.sample_movie_poster)
+                    .into(itemView.itemMainImagePoster)
 
             itemView.itemMainTextMovieName.text = movie.title
 
