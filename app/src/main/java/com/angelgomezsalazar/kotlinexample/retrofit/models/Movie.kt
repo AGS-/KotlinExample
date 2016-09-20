@@ -12,6 +12,7 @@ class Movie {
     var posterPath: String? = null
     @SerializedName("genre_ids")
     var genreIds: List<Int>? = null
-    var release_date: String? = null
+    @SerializedName("release_date")
+    var releaseDate: String? = null
     var overview: String? = null
 }

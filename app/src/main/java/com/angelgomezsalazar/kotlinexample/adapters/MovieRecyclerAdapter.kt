@@ -1,12 +1,14 @@
 package com.angelgomezsalazar.kotlinexample.adapters
 
 // We import adding the keyword view so we can access the synthetic properties
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.angelgomezsalazar.kotlinexample.R
+import com.angelgomezsalazar.kotlinexample.activities.DetailActivity
 import com.angelgomezsalazar.kotlinexample.retrofit.models.Movie
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_main.view.*
@@ -39,9 +41,15 @@ class MovieRecyclerAdapter(val movieList: List<Movie>,
             val finalGenreString = genreString
             itemView.itemMainTextGenre.text = genreString
 
-            itemView.itemMainTextDate.text = movie.release_date
+            itemView.itemMainTextDate.text = movie.releaseDate
             itemView.itemMainCardView.setOnClickListener {
-                Log.d("MovieRecyclerAdapter", "Button Clicked")
+                val detailIntent = Intent(itemView.context, DetailActivity::class.java)
+                detailIntent.putExtra(DetailActivity.NAME_EXTRA, movie.title)
+                detailIntent.putExtra(DetailActivity.GENRE_EXTRA, finalGenreString)
+                detailIntent.putExtra(DetailActivity.RELEASE_EXTRA, movie.releaseDate)
+                detailIntent.putExtra(DetailActivity.IMAGE_EXTRA, movie.posterPath)
+                detailIntent.putExtra(DetailActivity.OVERVIEW_EXTRA, movie.overview)
+                itemView.context.startActivity(detailIntent)
             }
         }
     }
