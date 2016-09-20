@@ -3,14 +3,12 @@ package com.angelgomezsalazar.kotlinexample.adapters
 // We import adding the keyword view so we can access the synthetic properties
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.angelgomezsalazar.kotlinexample.R
 import com.angelgomezsalazar.kotlinexample.activities.DetailActivity
 import com.angelgomezsalazar.kotlinexample.retrofit.models.Movie
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_main.view.*
 
 /**
