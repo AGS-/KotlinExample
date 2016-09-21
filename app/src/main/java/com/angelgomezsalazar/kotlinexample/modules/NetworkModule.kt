@@ -1,0 +1,87 @@
+package com.angelgomezsalazar.kotlinexample.modules
+
+import android.app.Application
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
+
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+
+import java.io.IOException
+
+import javax.inject.Singleton
+
+import dagger.Module
+import dagger.Provides
+import okhttp3.Cache
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+/**
+ * Created by angelgomez on 9/13/16.
+ */
+@Module
+class NetworkModule(val baseUrl: String) {
+
+    // Generates HTTP Cache
+    @Provides
+    @Singleton
+    internal fun provideOkHttpCache(application: Application): Cache {
+        val cacheSize = 10 * 1024 * 1024 // 10MB
+        return Cache(application.cacheDir, cacheSize.toLong())
+    }
+
+    // Add options to GSON here if you need them
+    @Provides
+    @Singleton
+    internal fun provideGson(): Gson {
+        val gsonBuilder = GsonBuilder()
+        return gsonBuilder.create()
+    }
+
+    // Provides us with cached responses if there is no network available, remove if you don' want
+    // it
+    @Provides
+    @Singleton
+    internal fun provideInterceptor(application: Application): Interceptor {
+        return Interceptor { chain ->
+            var request = chain.request()
+            if (isNetworkAvailable(application)) {
+                request = request.newBuilder().header("Cache-Control", "public, max-age=" + 60).build()
+            } else {
+                request = request.newBuilder().header("Cache-Control",
+                        "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build()
+            }
+            chain.proceed(request)
+        }
+    }
+
+    // Creates OkHttpClient we will be using with retrofit, customize here if you neeed to
+    @Provides
+    @Singleton
+    internal fun provideOkHttpClient(cache: Cache, interceptor: Interceptor): OkHttpClient {
+        val client = OkHttpClient.Builder().cache(cache).addInterceptor(interceptor).build()
+        return client
+    }
+
+    // Retrofit provider, you can change the converter factory (don't forget to add a provider for
+    // that factory)
+    @Provides
+    @Singleton
+    internal fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
+        val retrofit = Retrofit.Builder().client(okHttpClient).baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create(gson)).build()
+        return retrofit
+    }
+
+    private fun isNetworkAvailable(application: Application): Boolean {
+        val connectivityManager = application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo = connectivityManager.activeNetworkInfo
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected
+    }
+
+}

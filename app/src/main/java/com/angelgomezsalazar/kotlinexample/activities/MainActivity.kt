@@ -18,10 +18,14 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
     var movieRecyclerAdapter: MovieRecyclerAdapter? = null
+
+    @Inject
+    var retrofit: Retrofit? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
