@@ -1,11 +1,9 @@
 package com.angelgomezsalazar.kotlinexample.modules
 
 import android.app.Application
-
-import javax.inject.Singleton
-
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 /**
  * Created by angelgomez on 9/13/16.

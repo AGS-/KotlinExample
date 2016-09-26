@@ -3,24 +3,16 @@ package com.angelgomezsalazar.kotlinexample.modules
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkInfo
-
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-
-import java.io.IOException
-
-import javax.inject.Singleton
-
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 /**
  * Created by angelgomez on 9/13/16.
