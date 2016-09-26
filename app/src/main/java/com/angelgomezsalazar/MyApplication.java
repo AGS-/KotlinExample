@@ -2,6 +2,7 @@ package com.angelgomezsalazar;
 
 import android.app.Application;
 
+import com.angelgomezsalazar.kotlinexample.components.DaggerNetComponent;
 import com.angelgomezsalazar.kotlinexample.components.NetComponent;
 import com.angelgomezsalazar.kotlinexample.modules.AppModule;
 import com.angelgomezsalazar.kotlinexample.modules.NetworkModule;
@@ -10,7 +11,7 @@ import com.angelgomezsalazar.kotlinexample.modules.NetworkModule;
 /**
  * Created by angelgomez on 9/13/16.
  */
-public class MyApplication extends Application{
+public class MyApplication extends Application {
 
     private NetComponent netComponent;
 

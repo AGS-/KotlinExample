@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     var movieRecyclerAdapter: MovieRecyclerAdapter? = null
 
     @Inject
-    var retrofit: Retrofit? = null
+    lateinit var retrofit: Retrofit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
