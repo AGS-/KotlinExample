@@ -1,8 +1,6 @@
 package com.angelgomezsalazar
 
 import android.app.Application
-import android.util.Log
-
 import com.angelgomezsalazar.kotlinexample.components.DaggerNetComponent
 import com.angelgomezsalazar.kotlinexample.components.NetComponent
 import com.angelgomezsalazar.kotlinexample.modules.AppModule

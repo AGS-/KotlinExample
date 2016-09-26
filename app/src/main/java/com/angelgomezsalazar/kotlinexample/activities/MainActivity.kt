@@ -3,7 +3,6 @@ package com.angelgomezsalazar.kotlinexample.activities
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import com.angelgomezsalazar.MyApplication
 import com.angelgomezsalazar.kotlinexample.R
 import com.angelgomezsalazar.kotlinexample.adapters.MovieRecyclerAdapter
@@ -33,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         (application as MyApplication).netComponent.inject(this)
-        Log.d("MainActivity", "Injection succesful!")
 
         val movieList: MutableList<Movie> = arrayListOf()
         val movieApi: MovieApi = retrofit.create(MovieApi::class.java)
