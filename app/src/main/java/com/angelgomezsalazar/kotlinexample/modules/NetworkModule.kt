@@ -23,7 +23,7 @@ class NetworkModule(val baseUrl: String) {
     // Generates HTTP Cache
     @Provides
     @Singleton
-    internal fun provideOkHttpCache(application: Application): Cache {
+    fun provideOkHttpCache(application: Application): Cache {
         val cacheSize = 10 * 1024 * 1024 // 10MB
         return Cache(application.cacheDir, cacheSize.toLong())
     }
@@ -31,7 +31,7 @@ class NetworkModule(val baseUrl: String) {
     // Add options to GSON here if you need them
     @Provides
     @Singleton
-    internal fun provideGson(): Gson {
+    fun provideGson(): Gson {
         val gsonBuilder = GsonBuilder()
         return gsonBuilder.create()
     }
@@ -40,7 +40,7 @@ class NetworkModule(val baseUrl: String) {
     // it
     @Provides
     @Singleton
-    internal fun provideInterceptor(application: Application): Interceptor {
+    fun provideInterceptor(application: Application): Interceptor {
         return Interceptor { chain ->
             var request = chain.request()
             if (isNetworkAvailable(application)) {
@@ -56,7 +56,7 @@ class NetworkModule(val baseUrl: String) {
     // Creates OkHttpClient we will be using with retrofit, customize here if you neeed to
     @Provides
     @Singleton
-    internal fun provideOkHttpClient(cache: Cache, interceptor: Interceptor): OkHttpClient {
+    fun provideOkHttpClient(cache: Cache, interceptor: Interceptor): OkHttpClient {
         val client = OkHttpClient.Builder().cache(cache).addInterceptor(interceptor).build()
         return client
     }
@@ -65,7 +65,7 @@ class NetworkModule(val baseUrl: String) {
     // that factory)
     @Provides
     @Singleton
-    internal fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
+    fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
         val retrofit = Retrofit.Builder().client(okHttpClient).baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create(gson)).build()
         return retrofit
     }

@@ -13,7 +13,7 @@ class AppModule(val application: Application) {
 
     @Provides
     @Singleton
-    internal fun providesApplication(): Application {
+    fun providesApplication(): Application {
         return application
     }
 

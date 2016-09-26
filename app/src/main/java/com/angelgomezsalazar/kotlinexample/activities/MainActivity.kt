@@ -3,6 +3,8 @@ package com.angelgomezsalazar.kotlinexample.activities
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
+import com.angelgomezsalazar.MyApplication
 import com.angelgomezsalazar.kotlinexample.R
 import com.angelgomezsalazar.kotlinexample.adapters.MovieRecyclerAdapter
 import com.angelgomezsalazar.kotlinexample.retrofit.interfaces.MovieApi
@@ -17,7 +19,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -31,14 +32,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val retrofit: Retrofit = Retrofit.Builder()
-                .baseUrl("https://api.themoviedb.org/3/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
+        (application as MyApplication).netComponent.inject(this)
+        Log.d("MainActivity", "Injection succesful!")
 
         val movieList: MutableList<Movie> = arrayListOf()
         val movieApi: MovieApi = retrofit.create(MovieApi::class.java)
-
 
         val linearLayoutManager = LinearLayoutManager(this)
         mainRecyclerView.layoutManager = linearLayoutManager
