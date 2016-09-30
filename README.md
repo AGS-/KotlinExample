@@ -6,6 +6,9 @@ This is an example Android project made with Kotlin which also utilizes Dagger a
 Add your own api key to the project from [The Movie DB](https://www.themoviedb.org/) since I didn't
 add mine to git.
 
+If you want to see this same example without dagger, please refer to this
+[commit](https://github.com/AGS-/KotlinExample/tree/3adb912cd6485b7a4eb2123dcd3ff0dfcb38b009).
+
 ## License
 The MIT License (MIT)
 Copyright (c) 2016 Angel Gomez
